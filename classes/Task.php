@@ -10,10 +10,11 @@ class Task
     }
 
     // Insert task into the database
-    public function insertTask($taskDescription)
+    public function insertTask($taskDescription, $taskPriority)
     {
-        $stmt = $this->db->prepare("INSERT INTO tasks (description) VALUES (:description)");
+        $stmt = $this->db->prepare("INSERT INTO tasks (description, priority) VALUES (:description, :priority)");
         $stmt->bindParam(':description', $taskDescription);
+        $stmt->bindParam(':priority', $taskPriority);
         return $stmt->execute();
     }
 
@@ -35,18 +36,24 @@ class Task
     }
 
     // Update task by ID
-    public function updateTask($id, $newDescription)
+    public function updateTask($id, $newDescription, $newPriority)
     {
-        $stmt = $this->db->prepare("UPDATE tasks SET description = :description, updated_at = NOW() WHERE id = :id");
+        $stmt = $this->db->prepare("UPDATE tasks SET description = :description, priority = :priority, updated_at = NOW() WHERE id = :id");
         $stmt->bindParam(':description', $newDescription);
+        $stmt->bindParam(':priority', $newPriority);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }
 
     // Get all tasks
-    public function getTasks()
+    public function getTasks($orderBy)
     {
-        $stmt = $this->db->query("SELECT * FROM tasks ORDER BY created_at DESC");
+        // $orderBy: 0 = priority, 1 = date created
+        if ($orderBy == "0") {
+            $stmt = $this->db->query("SELECT * FROM tasks ORDER BY priority DESC, created_at DESC");
+        } else {
+            $stmt = $this->db->query("SELECT * FROM tasks ORDER BY created_at DESC, priority DESC");
+        }
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

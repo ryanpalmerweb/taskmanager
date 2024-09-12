@@ -10,6 +10,7 @@ $statusHandler = new StatusHandler();
 
 $id = $_POST['id'] ?? null;
 $newDescription = $_POST['task'] ?? '';
+$newPriority = $_POST['priority'] ?? '2';
 
 if ($id === null || empty($newDescription)) {
     $statusHandler->setStatus('error', 'Invalid task data.');
@@ -18,7 +19,7 @@ if ($id === null || empty($newDescription)) {
 }
 
 // Update the task in the database
-$updated = $taskObj->updateTask($id, $newDescription);
+$updated = $taskObj->updateTask($id, $newDescription, $newPriority);
 
 if ($updated) {
     $statusHandler->setStatus('success', 'Task updated successfully.');

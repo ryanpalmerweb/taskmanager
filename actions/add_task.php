@@ -8,8 +8,9 @@ $taskObj = new Task($database);
 $statusHandler = new StatusHandler();
 
 $taskDescription = $_POST['task'] ?? '';
+$taskPriority = $_POST['priority'] ?? '2';
 
-if ($taskObj->insertTask($taskDescription)) {
+if ($taskObj->insertTask($taskDescription, $taskPriority)) {
     $statusHandler->setStatus('success', 'Task added successfully.');
 } else {
     $statusHandler->setStatus('error', 'Failed to add the task.');
