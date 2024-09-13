@@ -41,7 +41,7 @@ if ($task === false) {
 <p>Current task message: <?php echo htmlspecialchars($task['description']); ?></p>
 
 <!-- Form for editing the task -->
-<form action="actions/edit_task.php" method="POST"> <!-- Updated action target -->
+<form action="actions/edit_task.php?<?php echo http_build_query($_GET); ?>" method="POST"> <!-- Updated action target -->
     <input type="hidden" name="id" value="<?php echo htmlspecialchars($task['id']); ?>">
     <label for="task">New Task Description:</label>
     <input type="text" id="task" name="task" value="<?php echo htmlspecialchars($task['description']); ?>" required>
