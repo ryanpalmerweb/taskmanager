@@ -48,6 +48,7 @@ function humanReadableTimestamp($timestamp) {
             <?php endif; ?>
             <a href="actions/delete_task.php?id=<?php echo $task['id']; ?>">Delete</a>
             <a href="edit.php?id=<?php echo $task['id']; ?>">Edit</a>
+            <a href="attachment.php?id=<?php echo $task['id']; ?>">View <?php echo $taskObj->getNumAttachments($task['id'])?> attachments</a>
         </li>
     <?php endforeach; ?>
 </ul>

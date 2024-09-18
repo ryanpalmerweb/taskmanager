@@ -49,4 +49,12 @@ class Task
         $stmt = $this->db->query("SELECT * FROM tasks ORDER BY created_at DESC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // get number of attachments for given task
+    public function getNumAttachments($id) {
+        $stmt = $this->db->prepare("SELECT COUNT(id) FROM task_attachments WHERE task_id = :id");
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
 }
