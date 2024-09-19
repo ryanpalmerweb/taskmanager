@@ -16,5 +16,12 @@ if ($taskObj->insertTask($taskDescription, $taskPriority)) {
     $statusHandler->setStatus('error', 'Failed to add the task.');
 }
 
-header("Location: ../index.php");  // Redirect to root index.php
+// if any GET parameters are set, append them to the URL
+if (!empty($_GET)) {
+    $queryString = http_build_query($_GET);
+    header("Location: ../index.php?" . $queryString);
+} else {
+    // no GET parameters, redirect normally
+    header("Location: ../index.php");
+}
 exit;

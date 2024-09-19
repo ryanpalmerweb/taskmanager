@@ -1,0 +1,11 @@
+ul.page-nav {
+    list-style: none;
+}
+
+ul.page-nav li {
+    display: inline-block;
+}
+
+ul.page-nav li:not(:last-child) {
+    padding-right: 10px;
+}
