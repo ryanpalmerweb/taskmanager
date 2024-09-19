@@ -8,8 +8,8 @@ $taskObj = new Task($database);
 $statusHandler = new StatusHandler();
 
 
-if (isset($_POST["orderBy"])) {
-    $orderBy = $_POST["orderBy"];
+if (isset($_GET["orderBy"])) {
+    $orderBy = $_GET["orderBy"];
 } else {
     $orderBy = 0;
 }
@@ -111,7 +111,8 @@ if (isset($_POST["itemsPerPage"])) {
 <br>
 
 <!-- order dropdown -->
-<form method="POST" action="">
+<form method="GET" action="">
+    <input type="hidden" name="page" value=<?php echo $page ?>>
     <select name="orderBy" id="orderBy" onchange="this.form.submit()">
         <option value="0" <?php if ($orderBy == 0) echo 'selected'; ?>>Order tasks by priority</option>
         <option value="1" <?php if ($orderBy == 1) echo 'selected'; ?>>Order tasks by date created</option>
@@ -129,7 +130,7 @@ if (isset($_POST["itemsPerPage"])) {
 
 <!-- navigation -->
 <ul class="page-nav">
-    <li><a href=<?php echo "'index.php?page=" . max($page - 1, 1) . "&itemsPerPage=" . $itemsPerPage . "'" ?>>&lt;Prev&gt;</a></li>
+    <li><a href=<?php echo "'index.php?page=" . max($page - 1, 1) . "&orderBy=" . $orderBy . "&itemsPerPage=" . $itemsPerPage . "'" ?>>&lt;Prev&gt;</a></li>
     <?php 
     $pageCount =$taskObj->getPageCount($itemsPerPage); 
     for ($i = 1; $i < $pageCount + 1; $i++) {
@@ -137,12 +138,12 @@ if (isset($_POST["itemsPerPage"])) {
         if ($i == $page) {
             echo "<u>" . $i . "</u>";
         } else {
-            echo "<a href='index.php?page=" . $i . "&itemsPerPage=" . $itemsPerPage . "'>&lt;" . $i . "&gt;</a>";
+            echo "<a href='index.php?page=" . $i . "&orderBy=" . $orderBy . "&itemsPerPage=" . $itemsPerPage . "'>&lt;" . $i . "&gt;</a>";
         }
         echo "</li>";
     }
     ?>
-    <li><a href=<?php echo "'index.php?page=" . min($page + 1, $pageCount) . "&itemsPerPage=" . $itemsPerPage . "'" ?>>&lt;Next&gt;</a></li>
+    <li><a href=<?php echo "'index.php?page=" . min($page + 1, $pageCount) . "&orderBy=" . $orderBy . "&itemsPerPage=" . $itemsPerPage . "'" ?>>&lt;Next&gt;</a></li>
 </ul>
 
 </body>
