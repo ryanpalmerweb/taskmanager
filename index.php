@@ -8,10 +8,10 @@ $taskObj = new Task($database);
 $statusHandler = new StatusHandler();
 
 
-if (isset($_GET["orderBy"])) {
-    $orderBy = $_GET["orderBy"];
-} else {
+if (!isset($_GET["orderBy"])) {
     $orderBy = 0;
+} else {
+    $orderBy = $_GET["orderBy"];
 }
 
 if (!isset($_GET["page"])) {
@@ -35,9 +35,9 @@ function humanReadableTimestamp($timestamp) {
 }
 
 // can be called whenever order is updated
-function renderTaskList($tasks) {
+function renderTaskList($tasks, $taskObj) {
     echo "<ul>";
-    foreach ($tasks as $task):
+    foreach ($tasks as $task) {
         echo "<li>";
         switch ($task['priority']) {
         case 1:
@@ -64,9 +64,10 @@ function renderTaskList($tasks) {
             echo "<em>Created at: " . humanReadableTimestamp($task['created_at']) . "</em> ";
         endif;
         echo "<a href='actions/delete_task.php?id=" . $task["id"]  . "&" . http_build_query($_GET) . "'>Delete</a> ";
-        echo "<a href='edit.php?id=" . $task["id"] . "&" . http_build_query($_GET) . "'>Edit</a>";
+        echo "<a href='edit.php?id=" . $task["id"] . "&" . http_build_query($_GET) . "'>Edit</a> ";
+        echo "<a href='attachment.php?id=" . $task['id'] . "'>View " . $taskObj->getNumAttachments($task['id']) . " attachments</a>";
         echo "</li>";
-    endforeach;
+    }
     echo "</ul>";
 }
 
@@ -126,7 +127,7 @@ if (isset($_POST["itemsPerPage"])) {
     </select>
 </form>
 
-<?php renderTaskList($tasks) ?>
+<?php renderTaskList($tasks, $taskObj) ?>
 
 <!-- navigation -->
 <ul class="page-nav">

@@ -68,4 +68,13 @@ class Task
         $taskCount = $stmt->fetchColumn();
         return intdiv($taskCount, $itemsPerPage) + 1;
     }
+
+    // get number of attachments for given task
+    public function getNumAttachments($id) 
+    {
+        $stmt = $this->db->prepare("SELECT COUNT(id) FROM task_attachments WHERE task_id = :id");
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
 }
