@@ -1,1 +1,6 @@
 .idea
+# ignore everything in files directory
+# except placeholder .gitkeep to ensure included in repo
+files/*
+!files/
+!files/.gitkeep
