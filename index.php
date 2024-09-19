@@ -1,4 +1,8 @@
 <?php
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 include 'classes/Database.php';
 include 'classes/Task.php';
 include 'classes/StatusHandler.php';
